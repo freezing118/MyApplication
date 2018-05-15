@@ -1,6 +1,5 @@
 package com.example.myapplication;
 
-import android.content.Context;
 import android.content.res.Resources;
 import android.location.Location;
 import android.os.Handler;

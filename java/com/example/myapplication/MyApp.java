@@ -2,10 +2,8 @@ package com.example.myapplication;
 
 //import android.Manifest;
 import android.Manifest;
-import android.app.ActivityManager;
 import android.app.Application;
 import android.content.Context;
-import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
