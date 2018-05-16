@@ -18,8 +18,7 @@ public class MainActivity extends AppCompatActivity {
     MyApp ma;
     Location lo;
     Resources rs;
-    String str, slo;
-    SharedPreferences sp;
+    String str;
 
     public static class MyHandler extends Handler {
         private final WeakReference<MainActivity> mMActivity;
@@ -58,7 +57,5 @@ public class MainActivity extends AppCompatActivity {
         str = rs.getString(R.string.location);
         ma = (MyApp) getApplication();
         ma.setHandler(hl);
-        sp = getSharedPreferences("saved-loc", Context.MODE_PRIVATE);
-        slo = sp.getString("location", "");
     }
 }

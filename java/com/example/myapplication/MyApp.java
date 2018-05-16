@@ -4,6 +4,7 @@ package com.example.myapplication;
 import android.Manifest;
 import android.app.Application;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
@@ -25,6 +26,8 @@ public class MyApp extends Application{
     LocationManager lm = null;
     Timer volumeTimer = new Timer();
     Handler mhl;
+    String slo;
+    SharedPreferences sp;
 
     TimerTask volumeTask = new TimerTask() {
         @Override
@@ -86,6 +89,8 @@ public class MyApp extends Application{
         super.onCreate();
         Log.i("MyApp", "in myapp");
 
+        sp = getSharedPreferences("saved-loc", Context.MODE_PRIVATE);
+        slo = sp.getString("location", "");
         lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         am = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
         volumeTimer.schedule(volumeTask, 0, 10000);
