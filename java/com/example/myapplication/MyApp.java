@@ -41,10 +41,13 @@ public class MyApp extends Application{
             permission = checkPermission(Manifest.permission.ACCESS_FINE_LOCATION,
                     android.os.Process.myPid(), android.os.Process.myUid());
             if (permission != PackageManager.PERMISSION_GRANTED) {
+                Log.i("MyApp", "no permission");
                 return;
             }
             lo = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-            Log.i("MyApp", "loc" + lo.getLatitude() + ", " + lo.getLongitude());
+            //if (lo == null)
+             //   return;
+            //Log.i("MyApp", "loc" + lo.getLatitude() + ", " + lo.getLongitude());
             if (mhl != null) {
                 msg = mhl.obtainMessage();
                 msg.what = 1;
@@ -86,12 +89,20 @@ public class MyApp extends Application{
 
     @Override
     public void onCreate() {
+        int permission;
         super.onCreate();
         Log.i("MyApp", "in myapp");
 
         sp = getSharedPreferences("saved-loc", Context.MODE_PRIVATE);
         slo = sp.getString("location", "");
         lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        permission = checkPermission(Manifest.permission.ACCESS_FINE_LOCATION,
+                android.os.Process.myPid(), android.os.Process.myUid());
+        if (permission != PackageManager.PERMISSION_GRANTED) {
+            Log.i("MyApp", "no permission");
+            return;
+        }
+        lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 1, ll);
         am = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
         volumeTimer.schedule(volumeTask, 0, 10000);
     }
