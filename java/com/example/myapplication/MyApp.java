@@ -93,8 +93,6 @@ public class MyApp extends Application{
         super.onCreate();
         Log.i("MyApp", "in myapp");
 
-        sp = getSharedPreferences("saved-loc", Context.MODE_PRIVATE);
-        slo = sp.getString("location", "");
         lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         permission = checkPermission(Manifest.permission.ACCESS_FINE_LOCATION,
                 android.os.Process.myPid(), android.os.Process.myUid());

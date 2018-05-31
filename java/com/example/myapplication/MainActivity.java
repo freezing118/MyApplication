@@ -8,6 +8,8 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
 import android.widget.TextView;
 
 import java.lang.ref.WeakReference;
@@ -18,7 +20,9 @@ public class MainActivity extends AppCompatActivity {
     MyApp ma;
     Location lo;
     Resources rs;
-    String str;
+    String str, slo;
+    SharedPreferences sp;
+    SharedPreferences.Editor editor;
 
     public static class MyHandler extends Handler {
         private final WeakReference<MainActivity> mMActivity;
@@ -57,5 +61,20 @@ public class MainActivity extends AppCompatActivity {
         str = rs.getString(R.string.location);
         ma = (MyApp) getApplication();
         ma.setHandler(hl);
+        sp = getSharedPreferences("saved-loc", Context.MODE_PRIVATE);
+        slo = sp.getString("location", "");
+        text = findViewById(R.id.main);
+        text.setText(slo);
+    }
+
+    public void onClick(View view){
+        switch (view.getId()){
+            case R.id.button:
+                sp = getSharedPreferences("saved-loc", Context.MODE_PRIVATE);
+                editor = sp.edit();
+                editor.putString("location", text.getText().toString());
+                editor.apply();
+                break;
+        }
     }
 }
