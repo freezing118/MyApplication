@@ -40,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
                 case 1:
                     activity.text = activity.findViewById(R.id.main);
                     activity.lo = (Location) msg.obj;
+                    Log.i("MyApp", "lo in msg" + activity.lo);
                     activity.text.setText(String.format(activity.str, msg.obj));
                     activity.cnt++;
                     if (activity.toSave > 0)

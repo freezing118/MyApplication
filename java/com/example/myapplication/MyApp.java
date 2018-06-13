@@ -37,12 +37,15 @@ public class MyApp extends Application{
             vol = am.getStreamVolume(AudioManager.STREAM_RING);
             volMax = am.getStreamMaxVolume(AudioManager.STREAM_RING);
             Log.i("MyApp", "volume:" + vol + "max:" + volMax);
-            am.setStreamVolume(AudioManager.STREAM_RING, 3, 0);
+            am.setStreamVolume(AudioManager.STREAM_RING, volMax/3, 0);
             permission = checkPermission(Manifest.permission.ACCESS_FINE_LOCATION,
                     android.os.Process.myPid(), android.os.Process.myUid());
             if (permission != PackageManager.PERMISSION_GRANTED) {
                 Log.i("MyApp", "no permission");
                 return;
+            }
+            if (lm.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+                Log.i("MyApp", "GPS enabled");
             }
             lo = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
             //if (lo == null)
