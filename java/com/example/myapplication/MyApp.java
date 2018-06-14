@@ -51,19 +51,26 @@ public class MyApp extends Application{
             //if (lo == null)
              //   return;
             //Log.i("MyApp", "loc" + lo.getLatitude() + ", " + lo.getLongitude());
-            if (mhl != null) {
-                msg = mhl.obtainMessage();
-                msg.what = 1;
-                msg.obj = lo;
-                mhl.sendMessage(msg);
-            }
+            //if (mhl != null) {
+            //    msg = mhl.obtainMessage();
+            //    msg.what = 1;
+            //    msg.obj = lo;
+            //    mhl.sendMessage(msg);
+           // }
         }
     };
 
     LocationListener ll = new LocationListener() {
         @Override
         public void onLocationChanged(Location location) {
+            Message msg;
             Log.i("MyApp", "location changed " + location);
+            if (mhl != null) {
+                msg = mhl.obtainMessage();
+                msg.what = 1;
+                msg.obj = location;
+                mhl.sendMessage(msg);
+            }
         }
 
         @Override
