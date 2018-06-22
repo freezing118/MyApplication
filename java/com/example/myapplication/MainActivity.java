@@ -67,7 +67,8 @@ public class MainActivity extends AppCompatActivity {
         sp = getSharedPreferences("saved-loc", Context.MODE_PRIVATE);
         slo = sp.getString("location", "");
         text = findViewById(R.id.main);
-        text.setText(slo);
+        text.setText(slo.substring(0, slo.indexOf("Longitude")));
+        text.append(slo.substring(slo.indexOf("Longitude")));
     }
 
     public void onClick(View view){
