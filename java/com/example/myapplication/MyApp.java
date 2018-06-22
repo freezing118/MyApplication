@@ -48,15 +48,15 @@ public class MyApp extends Application{
                 Log.i("MyApp", "GPS enabled");
             }
             lo = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-            //if (lo == null)
-             //   return;
-            //Log.i("MyApp", "loc" + lo.getLatitude() + ", " + lo.getLongitude());
-            //if (mhl != null) {
-            //    msg = mhl.obtainMessage();
-            //    msg.what = 1;
-            //    msg.obj = lo;
-            //    mhl.sendMessage(msg);
-           // }
+            if (lo == null)
+                return;
+            Log.i("MyApp", "loc" + lo.getLatitude() + ", " + lo.getLongitude());
+            if (mhl != null) {
+                msg = mhl.obtainMessage();
+                msg.what = 1;
+                msg.obj = lo;
+                mhl.sendMessage(msg);
+            }
         }
     };
 
@@ -65,12 +65,12 @@ public class MyApp extends Application{
         public void onLocationChanged(Location location) {
             Message msg;
             Log.i("MyApp", "location changed " + location);
-            if (mhl != null) {
-                msg = mhl.obtainMessage();
-                msg.what = 1;
-                msg.obj = location;
-                mhl.sendMessage(msg);
-            }
+           // if (mhl != null) {
+           //     msg = mhl.obtainMessage();
+           //     msg.what = 1;
+           //     msg.obj = location;
+           //     mhl.sendMessage(msg);
+           // }
         }
 
         @Override

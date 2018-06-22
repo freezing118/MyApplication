@@ -20,7 +20,7 @@ public class MainActivity extends AppCompatActivity {
     MyApp ma;
     Location lo;
     Resources rs;
-    String str, slo;
+    String lt, lg, slo;
     SharedPreferences sp;
     SharedPreferences.Editor editor;
 
@@ -41,7 +41,8 @@ public class MainActivity extends AppCompatActivity {
                     activity.text = activity.findViewById(R.id.main);
                     activity.lo = (Location) msg.obj;
                     Log.i("MyApp", "lo in msg" + activity.lo);
-                    activity.text.setText(String.format(activity.str, msg.obj));
+                    activity.text.setText(String.format(activity.lt, activity.lo.getLatitude() + " "));
+                    activity.text.append(String.format(activity.lg, activity.lo.getLongitude()));
                     activity.cnt++;
                     if (activity.toSave > 0)
                         activity.toSave--;
@@ -59,7 +60,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         rs = getApplicationContext().getResources();
-        str = rs.getString(R.string.location);
+        lt = rs.getString(R.string.latitude);
+        lg = rs.getString(R.string.longitude);
         ma = (MyApp) getApplication();
         ma.setHandler(hl);
         sp = getSharedPreferences("saved-loc", Context.MODE_PRIVATE);
