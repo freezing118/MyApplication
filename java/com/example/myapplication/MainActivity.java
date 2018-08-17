@@ -11,6 +11,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import java.lang.ref.WeakReference;
@@ -82,13 +83,48 @@ public class MainActivity extends AppCompatActivity {
         text.append(slg);
     }
 
+    public void calculateBKCode()
+    {
+        EditText inCode = findViewById(R.id.editText);
+        TextView outCode = findViewById(R.id.VerCode);
+        String inStr = inCode.getText().toString(), verification;
+        Integer tmp;
+
+        if (inStr.length() != 16)
+        {
+            outCode.setText(String.format(getString(R.string.errlen), inStr.length()));
+            return;
+        }
+
+        tmp = (((inStr.charAt(3) - '0') == 0 ? 1 : (inStr.charAt(3) - '0')) - (inStr.charAt(8) - '0') + 9) % 10;
+        verification = tmp.toString();
+
+        tmp = (10 - (inStr.charAt(3) - '0')) % 10;
+        verification += tmp;
+
+        verification += inStr.charAt(0);
+        verification += inStr.charAt(8);
+
+        tmp = (inStr.charAt(6) - '0') * 10 + (inStr.charAt(8) - '0');
+        tmp = tmp - ((tmp - (((inStr.charAt(3) - '0') == 0) ? 1 : (inStr.charAt(3) - '0')) + 1) / 10 + 1);
+        verification += (tmp < 10) ? ('0' + tmp.toString()) : tmp.toString();
+
+        verification += inStr.charAt(6);
+        verification += inStr.charAt(3);
+
+        outCode.setText(verification);
+    }
+
     public void onClick(View view){
         switch (view.getId()){
-            case R.id.button:
+            case R.id.save:
                 sp = getSharedPreferences("saved-loc", Context.MODE_PRIVATE);
                 editor = sp.edit();
                 editor.putString("location", text.getText().toString());
                 editor.apply();
+                break;
+            case R.id.verify:
+                calculateBKCode();
                 break;
         }
     }

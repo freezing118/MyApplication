@@ -3,4 +3,10 @@
     <string name="latitude">Latitude %1$s </string>>
     <string name="longitude">Longitude %1$s </string>>
     <string name="save">Save</string>
+    <string name="incode">In Code: </string>
+    <string name="verification">Verification: </string>
+    <string name="nullcode">NULL CODE</string>
+    <string name="verify">Verify</string>
+    <string name="survey">BurgerKing Survey</string>
+    <string name="errlen">survey code length error  %1$d</string>
 </resources>
