@@ -101,7 +101,8 @@ public class MyApp extends Application{
     public void onCreate() {
         int permission;
         super.onCreate();
-        Log.i("MyApp", "in myapp");
+        Log.i(getString(R.string.LogTagMain),
+                getString(R.string.AppName) + " is starting ...");
 
         lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         permission = checkPermission(Manifest.permission.ACCESS_FINE_LOCATION,

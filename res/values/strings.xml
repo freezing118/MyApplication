@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">My Application</string>
+    <string name="AppName">My Application</string>
     <string name="latitude">Latitude %1$s </string>>
     <string name="longitude">Longitude %1$s </string>>
     <string name="save">Save</string>
@@ -9,4 +9,5 @@
     <string name="verify">Verify</string>
     <string name="survey">BurgerKing Survey</string>
     <string name="errlen">survey code length error  %1$d</string>
+    <string name="LogTagMain">MyApp</string>
 </resources>

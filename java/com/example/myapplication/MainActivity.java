@@ -73,14 +73,21 @@ public class MainActivity extends AppCompatActivity {
         ma = (MyApp) getApplication();
         ma.setHandler(hl);
         sp = getSharedPreferences("saved-loc", Context.MODE_PRIVATE);
+
         slo = sp.getString("location", "");
+        Log.i("MyApp", "aaa");
+        Log.i("myApp", slo);
+        Log.i("MyApp", "bbb");
+        /*
         slt = slo.substring(0, slo.indexOf("Longitude"));
         slt = slt.substring(slt.indexOf(" ") + 1);
         slg = slo.substring(slo.indexOf("Longitude"));
         slg = slg.substring(slg.indexOf(" " + 1));
+
         text = findViewById(R.id.main);
         text.setText(slt);
         text.append(slg);
+        */
     }
 
     public void calculateBKCode() {
