@@ -17,14 +17,13 @@ import android.widget.TextView;
 import java.lang.ref.WeakReference;
 
 public class MainActivity extends AppCompatActivity {
-    int cnt = 0, toSave = 0;
-    String lt, lg, slo, slt, slg;
-    MyApp ma;
-    TextView text;
-    Location lo;
-    Resources rs;
-    SharedPreferences sp;
-    SharedPreferences.Editor editor;
+    int mCnt = 0, mToSave = 0;
+    String mLatitude, mLongitude, mSavedLocation, mSavedLatitude, mSavedLongitude;
+    MyApp mMyApp;
+    TextView mTextView;
+    Location mLocation;
+    SharedPreferences mSharedPreferences;
+    SharedPreferences.Editor mEditor;
 
     public static class MyHandler extends Handler {
         private final WeakReference<MainActivity> mMActivity;
@@ -38,56 +37,57 @@ public class MainActivity extends AppCompatActivity {
             Location destLo = new Location(LocationManager.GPS_PROVIDER);
             float dis;
             MainActivity activity = mMActivity.get();
-            if (activity == null)
+            if (activity == null) {
+                Log.w("MyApp", "No activity associated with handler.");
                 return;
+            }
             switch (msg.what) {
                 case 1:
-                    activity.text = activity.findViewById(R.id.main);
-                    activity.lo = (Location) msg.obj;
-                    Log.i("MyApp", "lo in msg" + activity.lo);
-                    activity.text.setText(String.format(activity.lt, activity.lo.getLatitude() + " "));
-                    activity.text.append(String.format(activity.lg, activity.lo.getLongitude()) + " ");
-                    destLo.setLatitude(Double.valueOf(activity.slt));
-                    destLo.setLongitude(Double.valueOf(activity.slg));
-                    dis = activity.lo.distanceTo(destLo);
-                    activity.text.append(String.valueOf(dis));
-                    activity.cnt++;
-                    if (activity.toSave > 0)
-                        activity.toSave--;
+                    activity.mTextView = activity.findViewById(R.id.main);
+                    activity.mLocation = (Location) msg.obj;
+                    Log.i("MyApp", "mLocation in msg" + activity.mLocation);
+                    activity.mTextView.setText(String.format(activity.mLatitude, activity.mLocation.getLatitude() + " "));
+                    activity.mTextView.append(String.format(activity.mLongitude, activity.mLocation.getLongitude()) + " ");
+                    destLo.setLatitude(Double.valueOf(activity.mSavedLatitude));
+                    destLo.setLongitude(Double.valueOf(activity.mSavedLongitude));
+                    dis = activity.mLocation.distanceTo(destLo);
+                    activity.mTextView.append(String.valueOf(dis));
+                    activity.mCnt++;
+                    if (activity.mToSave > 0)
+                        activity.mToSave--;
                     break;
             }
             super.handleMessage(msg);
         }
     }
 
-    MyHandler hl = new MyHandler(this);
+    MyHandler mHandler = new MyHandler(this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        rs = getApplicationContext().getResources();
-        lt = rs.getString(R.string.latitude);
-        lg = rs.getString(R.string.longitude);
-        ma = (MyApp) getApplication();
-        ma.setHandler(hl);
-        sp = getSharedPreferences("saved-loc", Context.MODE_PRIVATE);
+        mLatitude = getString(R.string.latitude);
+        mLongitude = getString(R.string.longitude);
+        mMyApp = (MyApp) getApplication();
+        mMyApp.setHandler(mHandler);
+        mSharedPreferences = getSharedPreferences("saved-loc", Context.MODE_PRIVATE);
 
-        slo = sp.getString("location", "");
-        Log.i("MyApp", "aaa");
-        Log.i("myApp", slo);
-        Log.i("MyApp", "bbb");
-        /*
-        slt = slo.substring(0, slo.indexOf("Longitude"));
-        slt = slt.substring(slt.indexOf(" ") + 1);
-        slg = slo.substring(slo.indexOf("Longitude"));
-        slg = slg.substring(slg.indexOf(" " + 1));
+        mSavedLocation = mSharedPreferences.getString("location", "");
+        Log.i(getString(R.string.LogTagMain), "saved location: " + mSavedLocation);
 
-        text = findViewById(R.id.main);
-        text.setText(slt);
-        text.append(slg);
-        */
+        if (mSavedLocation.equals("")) {
+            Log.i(getString(R.string.LogTagMain), "No saved location yet.");
+        } else {
+            mSavedLatitude = mSavedLocation.substring(0, mSavedLocation.indexOf("Longitude"));
+            mSavedLatitude = mSavedLatitude.substring(mSavedLatitude.indexOf(" ") + 1);
+            mSavedLongitude = mSavedLocation.substring(mSavedLocation.indexOf("Longitude"));
+            mSavedLongitude = mSavedLongitude.substring(mSavedLongitude.indexOf(" " + 1));
+            mTextView = findViewById(R.id.main);
+            mTextView.setText(mSavedLatitude);
+            mTextView.append(mSavedLongitude);
+        }
     }
 
     public void calculateBKCode() {
@@ -131,10 +131,10 @@ public class MainActivity extends AppCompatActivity {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.save:
-                sp = getSharedPreferences("saved-loc", Context.MODE_PRIVATE);
-                editor = sp.edit();
-                editor.putString("location", text.getText().toString());
-                editor.apply();
+                mSharedPreferences = getSharedPreferences("saved-loc", Context.MODE_PRIVATE);
+                mEditor = mSharedPreferences.edit();
+                mEditor.putString("location", mTextView.getText().toString());
+                mEditor.apply();
                 break;
             case R.id.verify:
                 calculateBKCode();
