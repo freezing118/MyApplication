@@ -38,16 +38,20 @@ public class MainActivity extends AppCompatActivity {
             float dis;
             MainActivity activity = mMActivity.get();
             if (activity == null) {
-                Log.w("MyApp", "No activity associated with handler.");
+                Log.w("MyApp",
+                        "No activity associated with handler.");
                 return;
             }
             switch (msg.what) {
                 case 1:
                     activity.mTextView = activity.findViewById(R.id.main);
                     activity.mLocation = (Location) msg.obj;
-                    Log.i("MyApp", "mLocation in msg" + activity.mLocation);
-                    activity.mTextView.setText(String.format(activity.mLatitude, activity.mLocation.getLatitude() + " "));
-                    activity.mTextView.append(String.format(activity.mLongitude, activity.mLocation.getLongitude()) + " ");
+                    Log.i(activity.getString(R.string.LogTagMain),
+                            "mLocation in msg" + activity.mLocation);
+                    activity.mTextView.setText(String.format(activity.mLatitude,
+                            activity.mLocation.getLatitude() + " "));
+                    activity.mTextView.append(String.format(activity.mLongitude,
+                            activity.mLocation.getLongitude()) + " ");
                     destLo.setLatitude(Double.valueOf(activity.mSavedLatitude));
                     destLo.setLongitude(Double.valueOf(activity.mSavedLongitude));
                     dis = activity.mLocation.distanceTo(destLo);
